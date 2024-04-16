@@ -9,7 +9,10 @@ services:
       - "zookeeper-volume:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
-
+    networks:
+      backend:
+        aliases:
+          - "zookeeper"
   kafka:
 #    restart: always
     image: docker.io/bitnami/kafka:3.3
@@ -27,6 +30,10 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - zookeeper
+    networks:
+      backend:
+        aliases:
+          - "kafka"
 
   redis:
     image: redis:7.2.4
@@ -36,6 +43,10 @@ services:
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes
+    networks:
+      backend:
+        aliases:
+          - "redis"
 
   keycloak:
     image: quay.io/keycloak/keycloak:18.0.2
@@ -48,8 +59,74 @@ services:
       - "8080:8080"
     command:
       - start-dev
+    networks:
+      backend:
+        aliases:
+          - "keycloak"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9300:9300
+      - 9200:9200
+    networks:
+      backend:
+        aliases:
+          - "elasticsearch"
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.7.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch:9300"
+    ports:
+      - 5601:5601
+    networks:
+      backend:
+        aliases:
+          - "kibana"
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.7.0
+    container_name: logstash
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+      - ./config:/etc/logstash/conf.d
+    ports:
+      - "5000:5000"
+    networks:
+      backend:
+        aliases:
+          - "logstash"
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - 9411:9411
+    networks:
+      backend:
+        aliases:
+          - "zipkin"
 
 volumes:
   kafka-volume:
   zookeeper-volume:
   redis_data:
+  esdata1:
+    driver: local
+
+networks:
+  backend:
+    driver: bridge
