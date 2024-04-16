@@ -1,0 +1,14 @@
+dependencies {
+    api 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    api 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer:4.1.1'
+
+//  web mvc
+//    api 'io.micrometer:micrometer-tracing-bridge-brave:1.2.5'
+//    api 'io.zipkin.reporter2:zipkin-reporter-brave:3.4.0'
+
+//    resttemplate
+    api 'io.micrometer:micrometer-tracing-bridge-otel:1.2.5'
+    api 'io.opentelemetry:opentelemetry-exporter-zipkin:1.37.0'
+}

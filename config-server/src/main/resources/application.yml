@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: config-server
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active:
+      - native
+#      - git
+#      - vault
+  cloud:
+    vault:
+      token: myroot
+    bus:
+      enabled: true
+    config:
+      server:
+#  ----------------------------------------------------
+        native:
+          search-locations: file:///home/sonnpm/config
+#          search-locations: classpath:/config
+#  ----------------------------------------------------
+#        git:
+#          uri: https://github.com/Sonnpm197/coffee-shop-config.git
+#  ----------------------------------------------------
+#        vault:
+#          port: 8200
+#          host: 127.0.0.1
+#          kv-version: 2
+  kafka:
+    bootstrap-servers:
+      - http://localhost:9093
+server:
+  port: 8071
+
+encrypt:
+  key: mysecret
+
+management:
+  health:
+    vault:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"

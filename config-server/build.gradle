@@ -1,0 +1,16 @@
+group = 'com.son.coffeeshop'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation project(':common-libs')
+    implementation 'org.springframework.cloud:spring-cloud-config-server:4.1.1'
+    //    spring-cloud-config-monitor: allows a POST request to Config Server’s
+    //    localhost:8071/actuator/busrefresh and refresh event when a change occurs in a Git repo.
+    implementation 'org.springframework.cloud:spring-cloud-config-monitor:4.1.1'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-kafka:4.1.1'
+    implementation 'org.springframework.cloud:spring-cloud-starter-vault-config:4.1.1'
+}
+
+test {
+    useJUnitPlatform()
+}
