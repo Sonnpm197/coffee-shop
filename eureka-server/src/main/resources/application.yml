@@ -5,4 +5,11 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8765/eureka}
+      defaultZone: ${EUREKA_URI:http://eureka-server:8765/eureka}
+  instance:
+    prefer-ip-address: true
+#    hostname: localhost
+management:
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans

@@ -29,15 +29,14 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
             ServerHttpRequest request = exchange.getRequest();
             String bearerToken = request.getHeaders().getFirst("Authorization");
             if (!StringUtils.hasText(bearerToken)) {
-                return unauthorized(exchange, HttpStatus.UNAUTHORIZED);
+//                return unauthorized(exchange, HttpStatus.UNAUTHORIZED);
+                request = request.mutate()
+                        .header("Authorization", bearerToken)
+                        .build();
             }
 
-            logger.info("Authorization filter accept bearer");
-
-            ServerHttpRequest modifiedRequest = request.mutate()
-                    .header("Authorization", bearerToken)
-                    .build();
-            return chain.filter(exchange.mutate().request(modifiedRequest).build());
+            logger.info("Authorization filter accept bearer: {}", bearerToken);
+            return chain.filter(exchange.mutate().request(request).build());
         };
     }
 

@@ -35,7 +35,7 @@ public class GreetingController {
     @GetMapping("test-order")
     public String testOrder() {
         ResponseEntity<String> restExchange = restTemplate.exchange(
-                "http://payment-service/test-payment",
+                "http://payment-service:8082/test-payment",
                 HttpMethod.GET,
                 null, String.class);
         return restExchange.getBody();
@@ -44,7 +44,7 @@ public class GreetingController {
     @GetMapping("test-order-intercept")
     public String testOrderIntercept() {
         ResponseEntity<String> restExchange = interceptRestTemplate.exchange(
-                "http://payment-service/test-payment",
+                "http://payment-service:8082/test-payment",
                 HttpMethod.GET,
                 null, String.class);
         return restExchange.getBody();

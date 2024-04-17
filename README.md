@@ -6,7 +6,7 @@ docker run -p 8200:8200 --name vault -e 'VAULT_DEV_ROOT_TOKEN_ID=myroot' -e 'VAU
 docker-compose -f docker/kafka/docker-compose.yml up
 
 # normal build 
-docker build -t test/order-service -f docker/order-service/Dockerfile order-service/
+docker build -t sonnpm/coffee-shop/order-service:0.0.1 -f docker/order-service/Dockerfile order-service/
 
 # layer build
 docker build -t test/order-service -f docker/order-service/Dockerfile_layer_jar order-service/

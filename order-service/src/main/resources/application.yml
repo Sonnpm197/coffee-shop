@@ -4,30 +4,31 @@ spring:
   profiles:
     active: dev
   config:
-    import: optional:configserver:http://localhost:8071
+    import: optional:configserver:http://config-server:8071
   cloud:
     stream:
       kafka:
         binder:
           brokers:
-            - http://localhost:9093
+            - http://kafka:9092
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/coffee-shop
-          jwk-set-uri: http://localhost:8080/realms/coffee-shop/protocol/openid-connect/certs
+          jwk-set-uri: http://keycloak:8080/realms/coffee-shop/protocol/openid-connect/certs
 
   kafka:
-    bootstrap-servers: http://localhost:9093
+    bootstrap-servers: http://kafka:9092
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8765/eureka}
+      defaultZone: ${EUREKA_URI:http://eureka-server:8765/eureka}
     register-with-eureka: true
     fetch-registry: true
   instance:
-    preferIpAddress: true
+    prefer-ip-address: true
+#    hostname: localhost
 
 server:
   port: 8081
@@ -35,7 +36,7 @@ server:
 management:
   zipkin:
     tracing:
-      endpoint: http://localhost:9411/api/v2/spans
+      endpoint: http://zipkin:9411/api/v2/spans
   tracing:
     sampling:
       probability: 1.0
@@ -84,5 +85,6 @@ resilience4j.retry:
       waitDuration: 10000
       retry-exceptions:
         - java.util.concurrent.TimeoutException
+
 
 

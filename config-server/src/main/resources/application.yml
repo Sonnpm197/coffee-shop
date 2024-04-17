@@ -29,7 +29,7 @@ spring:
 #          kv-version: 2
   kafka:
     bootstrap-servers:
-      - http://localhost:9093
+      - http://kafka:9092
 server:
   port: 8071
 
@@ -37,6 +37,9 @@ encrypt:
   key: mysecret
 
 management:
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
   health:
     vault:
       enabled: false

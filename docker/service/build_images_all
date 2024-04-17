@@ -1,0 +1,9 @@
+./gradlew config-server:build && docker build -t sonnpm/coffee-shop/config-server:0.0.1 -f docker/service/Dockerfile_layer_jar config-server/
+
+./gradlew eureka-server:build && docker build -t sonnpm/coffee-shop/eureka-server:0.0.1 -f docker/service/Dockerfile_layer_jar eureka-server/
+
+./gradlew gateway-server:build && docker build -t sonnpm/coffee-shop/gateway-server:0.0.1 -f docker/service/Dockerfile_layer_jar gateway-server/
+
+./gradlew order-service:build && docker build -t sonnpm/coffee-shop/order-service:0.0.1 -f docker/service/Dockerfile_layer_jar order-service/
+
+./gradlew payment-service:build && docker build -t sonnpm/coffee-shop/payment-service:0.0.1 -f docker/service/Dockerfile_layer_jar payment-service/
