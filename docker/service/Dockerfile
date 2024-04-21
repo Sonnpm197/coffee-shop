@@ -24,5 +24,5 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-#execute the application
+#execute the application (****CHANGE THE ENTRY POINT CLASS BELOW****)
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.son.coffeeshop.OrderServiceApplication"]
