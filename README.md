@@ -19,3 +19,10 @@ http://localhost:8888/actuator/gateway/routes
 
 # run keycloak
 docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -v /home/sonnpm/keycloak:/opt/keycloak/data/ quay.io/keycloak/keycloak:18.0.2 start-dev
+
+curl --location 'http://localhost:8080/realms/coffee-shop/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=coffee-shop-client' \
+--data-urlencode 'username=admin' \
+--data-urlencode 'password=admin' \
+--data-urlencode 'grant_type=password'
