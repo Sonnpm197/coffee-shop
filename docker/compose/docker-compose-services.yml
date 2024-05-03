@@ -1,6 +1,42 @@
 version: "3.7"
 services:
 
+  config-server:
+    image: sonnpm/coffee-shop/config-server:0.0.1
+    container_name: config-server
+    ports:
+      - "8071:8071"
+    networks:
+      backend:
+        aliases:
+          - "config-server"
+
+  eureka-server:
+    image: sonnpm/coffee-shop/eureka-server:0.0.1
+    container_name: eureka-server
+    ports:
+      - "8765:8765"
+    networks:
+      backend:
+        aliases:
+          - "eureka-server"
+    depends_on:
+      config-server:
+        condition: service_started
+
+  gateway-server:
+    image: sonnpm/coffee-shop/gateway-server:0.0.1
+    container_name: gateway-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "gateway-server"
+
   order-service:
     image: sonnpm/coffee-shop/order-service:0.0.1
     container_name: order-service
@@ -10,6 +46,9 @@ services:
       backend:
         aliases:
           - "order-service"
+    depends_on:
+      - config-server
+      - eureka-server
 
   payment-service:
     image: sonnpm/coffee-shop/payment-service:0.0.1
@@ -20,6 +59,9 @@ services:
       backend:
         aliases:
           - "payment-service"
+    depends_on:
+      - config-server
+      - eureka-server
 
 volumes:
   kafka-volume:
