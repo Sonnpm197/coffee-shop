@@ -1,5 +1,7 @@
 A springboot 3 microservices with zookeeper, kafka, vault, ELK and keycloak
 
+config-server points to https://github.com/Sonnpm197/coffee-shop-config
+
 # run vault
 docker run -p 8200:8200 --name vault -e 'VAULT_DEV_ROOT_TOKEN_ID=myroot' -e 'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200' hashicorp/vault
 
